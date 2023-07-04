@@ -1,7 +1,7 @@
 // Cargar las variables de entorno del archivo .env
 require("dotenv").config();
 
-const bodyparser = require('body-parser');
+const bodyparser = require("body-parser");
 
 // Importar el módulo Express
 const express = require("express");
@@ -46,15 +46,29 @@ app.put("/id/:id", (req, res) => {
   const id = parseInt(req.params.id);
   let product = BD.find((p) => p.id === id);
 
-  if(product !==undefined){
+  if (product !== undefined) {
     product = req.body; //product con nueva info
-    BD[id-1]=product;
+    BD[id - 1] = product;
     //let indice = BD.findIndex(p => p.id === id); //otra manera es teniendo el indice
     guardarFrutas(BD); //guardo en db
-    res.status(200).send("Fruta modificada")
+    res.status(200).send("Fruta modificada");
+  } else {
+    res.status(404).send("Error, fruta inexistente");
   }
-  else{
-    res.status(404).send("Error, fruta inexistente")
+});
+
+//DELETE
+app.delete("/id/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  let existe = BD.some((p) => p.id === id);
+
+  if (existe) {
+    let index = BD.findIndex(p => p.id === id);
+    BD.splice(index, 1);
+    guardarFrutas(BD); //guardo en db
+    res.status(200).send("Fruta eliminada");
+  } else {
+    res.status(404).send("Error, fruta inexistente");
   }
 });
 
