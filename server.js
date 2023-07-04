@@ -41,6 +41,11 @@ app.post("/", (req, res) => {
   res.status(201).send("Fruta agregada!"); // Enviar una respuesta exitosa
 });
 
+
+
+
+
+
 //PUT
 app.put("/id/:id", (req, res) => {
   const id = parseInt(req.params.id);
@@ -71,6 +76,16 @@ app.delete("/id/:id", (req, res) => {
     res.status(404).send("Error, fruta inexistente");
   }
 });
+
+app.get("/id/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  let product = BD.find((p) => p.id === id);
+  res.send(product);
+});
+
+
+
+
 
 // Ruta para manejar las solicitudes a rutas no existentes
 app.get("*", (req, res) => {
