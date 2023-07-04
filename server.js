@@ -65,10 +65,9 @@ app.put("/id/:id", (req, res) => {
 //DELETE
 app.delete("/id/:id", (req, res) => {
   const id = parseInt(req.params.id);
-  let existe = BD.some((p) => p.id === id);
+  let index = BD.findIndex(p => p.id === id);
 
-  if (existe) {
-    let index = BD.findIndex(p => p.id === id);
+  if (index !== -1) {//si dio true / si existe el id
     BD.splice(index, 1);
     guardarFrutas(BD); //guardo en db
     res.status(200).send("Fruta eliminada");
